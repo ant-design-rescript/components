@@ -27,6 +27,8 @@ module Modal = {
     ~confirmLoading: bool=?,
     ~destroyOnClose: bool=?,
     ~zIndex: int=?,
+    ~style:ReactDOM.style=?,
+    ~width:string=?
   ) => React.element = "Modal"
 }
 
@@ -90,6 +92,7 @@ module Input = {
     ~disabled: bool=?,
     ~onPressEnter: ReactEvent.Keyboard.t => unit=?,
     ~prefix: React.element=?,
+    ~suffix:React.element=?,
     ~onChange: ReactEvent.Form.t => unit=?,
     ~maxLength: int=?,
     ~defaultValue: string=?,
@@ -463,4 +466,81 @@ module Upload = {
     ~itemRender: (React.element, {..}, array<{..}>, {..}) => React.element=?,
     ~children: React.element=?,
   ) => React.element = "Upload"
+}
+
+module Tree = {
+  type rec item = {
+    key: string,
+    title: string,
+    labelText: string,
+    children: array<item>,
+  }
+  type node = {
+    key: string,
+    loading: bool,
+    active: bool,
+    checked: bool,
+    children: array<item>,
+    title: string,
+    pos: string,
+    expanded: bool,
+    selected: bool,
+  }
+  type rec onDrop = {
+    event: ReactEvent.Mouse.t,
+    node: node,
+    dragNode: node,
+    dragNodesKeys: array<string>,
+    dropPosition: int,
+    dropToGap: bool,
+  }
+  type drop = {
+    event: ReactEvent.Mouse.t,
+    node: node,
+  }
+  type dropEnter = {
+    event: ReactEvent.Mouse.t,
+    node: node,
+    expandedKeys: array<string>,
+  }
+  type draggable = {
+    icon: bool,
+    nodeDraggable: React.element => bool,
+  }
+  type select = {
+    selected: bool,
+    selectedNodes: node,
+    node: item,
+  }
+  type onSelect = {
+    selectedKeys: array<string>,
+    e: select,
+  }
+  @module("antd") @react.component
+  external make: (
+    ~treeData: 'a=?,
+    ~defaultExpandedKeys: array<string>=?,
+    ~showIcon: bool=?,
+    ~showLine: bool=?,
+    ~switcherIcon: React.element=?,
+    ~titleRender: item => React.element=?,
+    ~virtual: bool=?,
+    ~rootClassName: string=?,
+    ~className: string=?,
+    ~draggable: draggable=?,
+    ~onDrop: onDrop => unit=?,
+    ~onDragStart: drop => unit=?,
+    ~onDragOver: drop => unit=?,
+    ~onDragLeave: drop => unit=?,
+    ~onDragEnd: drop => unit=?,
+    ~onDragEnter: dropEnter => unit=?,
+    ~height: int=?,
+    ~fieldNames: {..}=?,
+    ~defaultExpandAll: bool=?,
+    ~defaultExpandParent: bool=?,
+    ~checkable: bool=?,
+    ~blockNode: bool=?,
+    ~autoExpandParent: bool=?,
+    ~onSelect: (onSelect, select) => unit=?,
+  ) => React.element = "Tree"
 }
