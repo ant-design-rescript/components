@@ -130,7 +130,7 @@ module Input = {
 
 module Select = {
   type placement = [#bottomLeft | #bottomRight | #topLeft | #topRight]
-
+  type mode = [#multiple | #tags]
   @module("antd") @react.component
   external make: (
     @as("open") ~open_: bool=?,
@@ -149,6 +149,7 @@ module Select = {
     ~showArrow: bool=?,
     ~showSearch: bool=?,
     ~virtual: bool=?,
+    ~mode: mode=?,
   ) => React.element = "Select"
 }
 
