@@ -124,6 +124,9 @@ module Input = {
       ~value: string=?,
       ~onPressEnter: ReactEvent.Keyboard.t => unit=?,
       ~onResize: resize => unit=?,
+      ~bordered: bool=?,
+      ~style: ReactDOM.style=?,
+      ~onChange: ReactEvent.Form.t => unit=?,
     ) => React.element = "TextArea"
   }
 }
