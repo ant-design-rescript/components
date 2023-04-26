@@ -27,8 +27,8 @@ module Modal = {
     ~confirmLoading: bool=?,
     ~destroyOnClose: bool=?,
     ~zIndex: int=?,
-    ~style:ReactDOM.style=?,
-    ~width:string=?
+    ~style: ReactDOM.style=?,
+    ~width: string=?,
   ) => React.element = "Modal"
 }
 
@@ -92,7 +92,7 @@ module Input = {
     ~disabled: bool=?,
     ~onPressEnter: ReactEvent.Keyboard.t => unit=?,
     ~prefix: React.element=?,
-    ~suffix:React.element=?,
+    ~suffix: React.element=?,
     ~onChange: ReactEvent.Form.t => unit=?,
     ~maxLength: int=?,
     ~defaultValue: string=?,
@@ -124,6 +124,9 @@ module Input = {
       ~value: string=?,
       ~onPressEnter: ReactEvent.Keyboard.t => unit=?,
       ~onResize: resize => unit=?,
+      ~disabled: bool=?,
+      ~style: ReactDOM.style=?,
+      ~onChange: ReactEvent.Form.t => unit=?,
     ) => React.element = "TextArea"
   }
 }
