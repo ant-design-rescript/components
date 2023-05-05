@@ -404,13 +404,18 @@ module DatePicker = {
 }
 
 module Image = {
+  type preview = {
+    visible: bool,
+    onVisibleChange: bool => unit,
+    src: string,
+  }
   @module("antd") @react.component
   external make: (
     ~alt: string=?,
     ~fallback: string=?,
     ~width: string=?,
     ~height: string=?,
-    ~preview: bool=?,
+    ~preview: preview=?,
     ~src: string=?,
     ~onError: ReactEvent.Image.t => unit=?,
     ~className: string=?,
