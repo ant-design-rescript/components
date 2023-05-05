@@ -548,3 +548,46 @@ module Tree = {
     ~onSelect: (onSelect, select) => unit=?,
   ) => React.element = "Tree"
 }
+
+module Popover = {
+  type placement = [
+    | #top
+    | #left
+    | #right
+    | #bottom
+    | #topLeft
+    | #topRight
+    | #bottomLeft
+    | #bottomRight
+    | #leftTop
+    | #leftBottom
+    | #rightTop
+    | #rightBottom
+  ]
+  type trigger = [
+    | #hover
+    | #focus
+    | #click
+    | #contextMenu
+  ]
+  @module("antd") @react.component
+  external make: (
+    ~content: React.element=?,
+    ~title: React.element=?,
+    ~arrow: bool=?,
+    ~autoAdjustOverflow: bool=?,
+    ~color: string=?,
+    ~defaultOpen: bool=?,
+    ~destroyTooltipOnHide: bool=?,
+    ~mouseEnterDelay: int=?,
+    ~mouseLeaveDelay: int=?,
+    ~overlayClassName: string=?,
+    ~overlayStyle: {..}=?,
+    ~overlayInnerStyle: {..}=?,
+    ~placement: placement=?,
+    ~trigger: trigger=?,
+    @as("open") ~open_: bool,
+    ~zIndex: int=?,
+    ~onOpenChange: unit => unit=?,
+  ) => React.element = "Popover"
+}
