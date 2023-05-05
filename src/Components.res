@@ -404,18 +404,36 @@ module DatePicker = {
 }
 
 module Image = {
-  type preview = {
-    visible: bool,
-    onVisibleChange: bool => unit,
-    src: string,
+  module BoolOrPreviewType = {
+    type o = {
+      visible?: bool,
+      onVisibleChange?: (bool, bool, float) => void,
+      // getContainer?: string | HTMLElement | (() => HTMLElement),
+      src?: string,
+      mask?: React.element,
+      maskClassName?: string,
+      rootClassName?: string,
+      current?: float,
+      countRender?: (float, float) => string,
+      scaleStep?: float,
+      forceRender?: bool,
+      onChange?: (float, float) => unit,
+    }
+    type rec t = Any('a): t
+    type union = Bool(bool) | Object(o)
+    let boolean = (v: bool) => Any(v)
+    let object = (v: o) => Any(v)
+    let make = (Any(v): t): union =>
+      Js.typeof(v) == "boolean" ? Bool((Obj.magic(v): bool)) : Object((Obj.magic(v): o))
   }
+
   @module("antd") @react.component
   external make: (
     ~alt: string=?,
     ~fallback: string=?,
     ~width: string=?,
     ~height: string=?,
-    ~preview: preview=?,
+    ~preview: BoolOrPreviewType.t=?,
     ~src: string=?,
     ~onError: ReactEvent.Image.t => unit=?,
     ~className: string=?,
