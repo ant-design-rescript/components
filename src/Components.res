@@ -574,6 +574,7 @@ module Popover = {
   external make: (
     ~content: React.element=?,
     ~title: React.element=?,
+    ~children: React.element=?,
     ~arrow: bool=?,
     ~autoAdjustOverflow: bool=?,
     ~color: string=?,
@@ -586,7 +587,7 @@ module Popover = {
     ~overlayInnerStyle: {..}=?,
     ~placement: placement=?,
     ~trigger: trigger=?,
-    @as("open") ~open_: bool,
+    @as("open") ~open_: bool=?,
     ~zIndex: int=?,
     ~onOpenChange: unit => unit=?,
   ) => React.element = "Popover"
