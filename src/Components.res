@@ -407,7 +407,7 @@ module Image = {
   module BoolOrPreviewType = {
     type o = {
       visible?: bool,
-      onVisibleChange?: (bool, bool, float) => void,
+      onVisibleChange?: (bool, bool, float) => unit,
       // getContainer?: string | HTMLElement | (() => HTMLElement),
       src?: string,
       mask?: React.element,
