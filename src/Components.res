@@ -404,26 +404,36 @@ module DatePicker = {
 }
 
 module Image = {
-  module BoolOrPreviewType = {
-    type o = {
-      visible?: bool,
-      onVisibleChange?: (bool, bool, float) => unit,
-      // getContainer?: string | HTMLElement | (() => HTMLElement),
-      src?: string,
-      mask?: React.element,
-      maskClassName?: string,
-      rootClassName?: string,
-      current?: float,
-      countRender?: (float, float) => string,
-      scaleStep?: float,
-      forceRender?: bool,
-      onChange?: (float, float) => unit,
-    }
+  @unboxed
+  type rec t = Any('a): t
+  type o = {
+    visible?: bool,
+    onVisibleChange?: (bool, bool, float) => unit,
+    // getContainer?: string | HTMLElement | (() => HTMLElement),
+    src?: string,
+    mask?: React.element,
+    maskClassName?: string,
+    rootClassName?: string,
+    current?: float,
+    countRender?: (float, float) => string,
+    scaleStep?: float,
+    forceRender?: bool,
+    onChange?: (float, float) => unit,
+  }
+
+  module BoolOrPreviewType: {
+    type t
+    type union = Bool(bool) | Object(o)
+    let boolean: bool => t
+    let object: o => t
+    let classify: t => union
+  } = {
+    @unboxed
     type rec t = Any('a): t
     type union = Bool(bool) | Object(o)
     let boolean = (v: bool) => Any(v)
     let object = (v: o) => Any(v)
-    let make = (Any(v): t): union =>
+    let classify = (Any(v): t): union =>
       Js.typeof(v) == "boolean" ? Bool((Obj.magic(v): bool)) : Object((Obj.magic(v): o))
   }
 
