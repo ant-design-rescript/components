@@ -10,7 +10,7 @@ ReScript bindings for [antd](https://www.npmjs.com/package/antd)
 yarn add @ant-design-rescript/components
 ```
 
-2. Add this to your `bsconfig.json`
+2. Add this to your `rescript.json`
 
 ```json
 "bs-dependencies": [

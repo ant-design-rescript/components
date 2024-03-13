@@ -218,6 +218,7 @@ module Menu = {
   }
 
   type onClick = {
+    item: React.element,
     key: string,
     keyPath: array<string>,
     domEvent: ReactEvent.Mouse.t,
@@ -334,6 +335,12 @@ module Drawer = {
       Js.typeof(v) == "string" ? String((Obj.magic(v): string)) : Number((Obj.magic(v): float))
   }
 
+  type styles = {
+    header?: ReactDOM.style,
+    body?: ReactDOM.style,
+    footer?: ReactDOM.style,
+  }
+
   @react.component @module("antd")
   external make: (
     ~title: React.element=?,
@@ -348,9 +355,7 @@ module Drawer = {
     ~maskClosable: bool=?,
     ~maskStyle: ReactDOM.style=?,
     ~destroyOnClose: bool=?,
-    ~footerStyle: ReactDOM.style=?,
-    ~headerStyle: ReactDOM.style=?,
-    ~bodyStyle: ReactDOM.style=?,
+    ~styles: styles=?,
     ~afterOpenChange: bool => unit=?,
     ~autoFocus: bool=?,
     @as("open") ~open_: bool,
