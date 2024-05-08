@@ -1,6 +1,6 @@
 {
   "name": "@ant-design-rescript/components",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "ReScript bindings for antd",
   "files": [
     "README.md",

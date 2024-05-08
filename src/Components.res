@@ -1,7 +1,8 @@
 module Divider = {
+  type type_ = [#horizontal | #vertical]
   @module("antd") @react.component
   external make: (
-    @as("type") ~type_: string=?,
+    @as("type") ~type_: type_=?,
     ~children: React.element=?,
     ~className: string=?,
     ~style: ReactDOM.style=?,
@@ -85,11 +86,13 @@ module Dropdown = {
 }
 
 module Input = {
+  type variant = [#outlined | #borderless | #filled]
   @module("antd") @react.component
   external make: (
     ~id: string=?,
     ~value: string=?,
     ~disabled: bool=?,
+    ~variant: variant=?,
     ~onPressEnter: ReactEvent.Keyboard.t => unit=?,
     ~prefix: React.element=?,
     ~suffix: React.element=?,
@@ -146,7 +149,7 @@ module Select = {
     ~style: ReactDOM.style=?,
     ~defaultValue: array<string>=?,
     ~disabled: bool=?,
-    ~onChange: ReactEvent.Form.t => unit=?,
+    ~onChange: 'a => unit=?,
     ~options: array<{..}>=?,
     ~searchValue: string=?,
     ~showArrow: bool=?,
@@ -584,6 +587,8 @@ module Tree = {
     ~blockNode: bool=?,
     ~autoExpandParent: bool=?,
     ~onSelect: (onSelect, select) => unit=?,
+    ~onCheck: (array<string>, {..}) => unit=?,
+    ~checkedKeys: array<string>=?,
   ) => React.element = "Tree"
 }
 
