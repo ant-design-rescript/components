@@ -30,6 +30,8 @@ module Modal = {
     ~zIndex: int=?,
     ~style: ReactDOM.style=?,
     ~width: string=?,
+    ~afterOpenChange: bool => unit=?,
+    ~className: string=?,
   ) => React.element = "Modal"
 }
 
@@ -40,13 +42,10 @@ module Button = {
 
   module BoolOrObject = {
     type o = {delay: float}
-    type rec t = Any('a): t
-    type union = Bool(bool) | Object(o)
-    let boolean = (v: bool) => Any(v)
-    let object = (v: o) => Any(v)
-    let make = (Any(v): t): union =>
-      Js.typeof(v) == "boolean" ? Bool((Obj.magic(v): bool)) : Object((Obj.magic(v): o))
+    @unboxed
+    type t = Bool(bool) | Object(o)
   }
+  type iconPosition = [#start | #end]
 
   @module("antd") @react.component
   external make: (
@@ -56,7 +55,7 @@ module Button = {
     ~className: string=?,
     ~style: ReactDOM.style=?,
     ~icon: React.element=?,
-    ~onClick: ReactEvent.Mouse.t => unit=?,
+    ~onClick: ReactEvent.Mouse.t => 'a=?,
     ~ref: ReactDOM.Ref.t=?,
     ~loading: BoolOrObject.t=?,
     ~htmlType: string=?,
@@ -66,6 +65,7 @@ module Button = {
     ~ghost: bool=?,
     ~href: string=?,
     ~size: size=?,
+    ~iconPosition: iconPosition=?,
   ) => React.element = "Button"
 }
 
@@ -87,6 +87,13 @@ module Dropdown = {
 
 module Input = {
   type variant = [#outlined | #borderless | #filled]
+
+  module BoolOrObject = {
+    type o = {clearIcon: React.element}
+    @unboxed
+    type t = Bool(bool) | Object(o)
+  }
+
   @module("antd") @react.component
   external make: (
     ~id: string=?,
@@ -107,6 +114,7 @@ module Input = {
     ~className: string=?,
     ~placeholder: string=?,
     ~style: ReactDOM.style=?,
+    ~allowClear: BoolOrObject.t=?,
   ) => React.element = "Input"
 
   module TextArea = {
@@ -148,8 +156,9 @@ module Select = {
     ~placeholder: string=?,
     ~style: ReactDOM.style=?,
     ~defaultValue: array<string>=?,
+    ~value: array<string>=?,
     ~disabled: bool=?,
-    ~onChange: 'a => unit=?,
+    ~onChange: 'a => 'b=?,
     ~options: array<{..}>=?,
     ~searchValue: string=?,
     ~showArrow: bool=?,
@@ -215,9 +224,7 @@ module Menu = {
     mutable icon?: React.element,
     mutable children?: array<menuItem>,
     label: React.element,
-    @as("type") type_: string,
     mutable expandIcon?: React.element,
-    mode: string,
   }
 
   type onClick = {
@@ -375,15 +382,19 @@ module Drawer = {
 }
 
 module DatePicker = {
-  type variant = [#date | #week | #month | #quarter | #year]
+  type picker = [#date | #week | #month | #quarter | #year]
+  type size = [#large | #middle | #small]
+  type variant = [#outlined | #borderless | #filled]
   type status = [#error | #warning]
   type placement = [#bottomLeft | #bottomRight | #topLeft | #topRight]
   @module("antd") @react.component
   external make: (
     ~className: string=?,
     ~style: ReactDOM.style=?,
-    ~picker: variant=?,
+    ~picker: picker=?,
+    ~size: size=?,
     ~status: status=?,
+    ~variant: variant=?,
     ~placeholder: string=?,
     ~placement: placement=?,
     ~inputReadOnly: bool=?,
@@ -393,6 +404,9 @@ module DatePicker = {
     ~bordered: bool=?,
     ~prevIcon: React.element=?,
     ~nextIcon: React.element=?,
+    ~onOpenChange: bool => unit=?,
+    ~onChange: (Nullable.t<Dayjs.dayjs>, string) => unit=?,
+    ~value: Dayjs.dayjs=?,
   ) => React.element = "DatePicker"
 
   module RangePicker = {
@@ -412,37 +426,23 @@ module DatePicker = {
 }
 
 module Image = {
-  @unboxed
-  type rec t = Any('a): t
-  type o = {
-    visible?: bool,
-    onVisibleChange?: (bool, bool, float) => unit,
-    // getContainer?: string | HTMLElement | (() => HTMLElement),
-    src?: string,
-    mask?: React.element,
-    maskClassName?: string,
-    rootClassName?: string,
-    current?: float,
-    countRender?: (float, float) => string,
-    scaleStep?: float,
-    forceRender?: bool,
-    onChange?: (float, float) => unit,
-  }
-
-  module BoolOrPreviewType: {
-    type t
-    type union = Bool(bool) | Object(o)
-    let boolean: bool => t
-    let object: o => t
-    let classify: t => union
-  } = {
+  module BoolOrPreviewType = {
+    type o = {
+      visible?: bool,
+      onVisibleChange?: (bool, bool, float) => unit,
+      // getContainer?: string | HTMLElement | (() => HTMLElement),
+      src?: string,
+      mask?: React.element,
+      maskClassName?: string,
+      rootClassName?: string,
+      current?: float,
+      countRender?: (float, float) => string,
+      scaleStep?: float,
+      forceRender?: bool,
+      onChange?: (float, float) => unit,
+    }
     @unboxed
-    type rec t = Any('a): t
-    type union = Bool(bool) | Object(o)
-    let boolean = (v: bool) => Any(v)
-    let object = (v: o) => Any(v)
-    let classify = (Any(v): t): union =>
-      Js.typeof(v) == "boolean" ? Bool((Obj.magic(v): bool)) : Object((Obj.magic(v): o))
+    type t = Bool(bool) | PreviewType(o)
   }
 
   @module("antd") @react.component
@@ -511,6 +511,19 @@ module Upload = {
     ~itemRender: (React.element, {..}, array<{..}>, {..}) => React.element=?,
     ~children: React.element=?,
   ) => React.element = "Upload"
+
+  module Dragger = {
+    @scope("Upload") @module("antd") @react.component
+    external make: (
+      ~className: string=?,
+      ~style: ReactDOM.style=?,
+      ~name: string=?,
+      ~multiple: bool=?,
+      ~action: string=?,
+      ~onChange: {..} => unit=?,
+      ~children: React.element=?,
+    ) => React.element = "Dragger"
+  }
 }
 
 module Tree = {
@@ -565,6 +578,8 @@ module Tree = {
   external make: (
     ~treeData: 'a=?,
     ~defaultExpandedKeys: array<string>=?,
+    ~defaultSelectedKeys: array<string>=?,
+    ~expandedKeys: array<string>=?,
     ~showIcon: bool=?,
     ~showLine: bool=?,
     ~switcherIcon: React.element=?,
@@ -586,8 +601,9 @@ module Tree = {
     ~checkable: bool=?,
     ~blockNode: bool=?,
     ~autoExpandParent: bool=?,
-    ~onSelect: (onSelect, select) => unit=?,
+    ~onSelect: (array<string>, select) => unit=?,
     ~onCheck: (array<string>, {..}) => unit=?,
+    ~onExpand: ('a, 'a) => unit=?,
     ~checkedKeys: array<string>=?,
   ) => React.element = "Tree"
 }

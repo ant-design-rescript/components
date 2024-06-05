@@ -1,6 +1,6 @@
 {
   "name": "@ant-design-rescript/components",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "ReScript bindings for antd",
   "files": [
     "README.md",
@@ -30,15 +30,12 @@
   },
   "homepage": "https://github.com/ant-design-rescript/components",
   "devDependencies": {
-    "@commitlint/cli": "^17.3.0",
-    "@commitlint/config-conventional": "^17.3.0",
-    "cz-conventional-changelog": "^3.3.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "rescript": "^11.0.1"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "rescript": "^11.1.1"
   },
   "dependencies": {
-    "antd": "^5.15.2"
+    "antd": "^5.18.0"
   },
   "bugs": {
     "url": "https://github.com/ant-design-rescript/components/issues"
