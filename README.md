@@ -28,7 +28,7 @@ open AntDesignRescriptComponents.Components
 
 @react.component
 let make = () => {
-  <Button loading={Button.BoolOrObject.object({delay: 1.})}>
+  <Button loading={Button.BoolOrObject.Object({delay: 1.})}>
     {"Cancel"->React.string}
   </Button>
 }
